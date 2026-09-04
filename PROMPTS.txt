@@ -13,3 +13,5 @@ Add an option for no modifier. When active, a left click with no modifiers will 
 ---
 When I have a running application with no running windows and click it, I should get a new window like normal.
 ---
+Add a flag to build a release that I can upload to github. The release should be a .zip containing a ClickSwitch directory containing the package.
+---

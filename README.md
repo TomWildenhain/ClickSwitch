@@ -45,7 +45,8 @@ That last rule is what stops it from ping-ponging between the two most recent wi
 are actively cycling, the app walks one frozen snapshot of the window order instead of
 re-sorting after every raise.
 
-Apps with one window, or that aren't running, behave like a normal Dock click.
+Apps with one window, or that aren't running, behave like a normal Dock click. So does a running
+app with no windows left open: it gets a fresh window rather than just coming forward empty.
 
 ## Menu bar options
 
@@ -117,3 +118,23 @@ is missing.
 | `Sources/ClickSwitch/AppDelegate.swift` | Menu bar item, permissions, preferences UI |
 
 Requires macOS 13 or later. Builds with the Command Line Tools; Xcode is not needed.
+
+## Cutting a release
+
+```sh
+./build.sh --release
+```
+
+Produces `build/ClickSwitch-<version>.zip`, containing a `ClickSwitch` directory with
+`ClickSwitch.app` inside, ready to attach to a GitHub release. The binary is universal, so it
+runs on both Apple silicon and Intel. Bump `CFBundleShortVersionString` in `Resources/Info.plist`
+to change the version in the filename.
+
+The archive is written with `ditto` rather than `zip`, which is what keeps the code signature
+intact through the round trip.
+
+Two things to tell anyone downloading it. The app is only ad-hoc signed, not signed with a
+Developer ID or notarized, so Gatekeeper will refuse to open it on first launch — they need to
+right-click the app and choose **Open**, or run
+`xattr -dr com.apple.quarantine /Applications/ClickSwitch.app`. And it needs Accessibility
+permission, as below.

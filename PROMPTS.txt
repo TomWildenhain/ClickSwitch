@@ -1,0 +1,13 @@
+Model: Claude Opus 5 (High)
+Harness: Cursor 3.18.25
+---
+On windows it is easy to cycle between open windows of an application by ctrl+clicking the application in the task bar. I want an equally easy way to do this on mac os. Build me a mac app where Command+click on the dock for an application will cycle through the open windows in order that they were most recently in the foreground.
+---
+This is almost perfect, but it brings all windows of the application to the foreground when I activate it while switching apps. If I have two chrome windows and have finder open, command+click on chrome should bring up just the most recent window.
+---
+Add an option for Shift as the cycle modifier.
+---
+Can you add a cycle modifier entry "Multiple". When checked, it allows multiple cycle modifiers to be selected (like checkboxes). When disabled, deselect all cycle modifiers except the first selected one.
+---
+Add an option for no modifier. When active, a left click with no modifiers will have the effect. For no modifier, you need to only trigger the effect on mouse up without a drag. If there is a drag, we need a normal click and drag.
+---

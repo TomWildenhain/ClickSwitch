@@ -11,3 +11,5 @@ Can you add a cycle modifier entry "Multiple". When checked, it allows multiple 
 ---
 Add an option for no modifier. When active, a left click with no modifiers will have the effect. For no modifier, you need to only trigger the effect on mouse up without a drag. If there is a drag, we need a normal click and drag.
 ---
+When I have a running application with no running windows and click it, I should get a new window like normal.
+---

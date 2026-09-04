@@ -32,8 +32,20 @@ final class WindowCycler {
             session = nil
         }
 
-        let windows = cyclableWindows(of: appElement)
+        // Judge emptiness on every window the app has, not just the standard ones, so an app
+        // whose only windows have an unusual subrole is not given a spurious new one.
+        let allWindows = appElement.elements(kAXWindowsAttribute)
+        guard !allWindows.isEmpty else {
+            session = nil
+            reopen(pid: pid)
+            return
+        }
+
+        let windows = cyclableWindows(from: allWindows)
         guard !windows.isEmpty else {
+            // Windows exist but are all filtered out, which today means minimized ones the user
+            // asked us to leave alone. Activating is as far as we should go.
+            session = nil
             NSRunningApplication(processIdentifier: pid)?.activateApp()
             return
         }
@@ -85,8 +97,8 @@ final class WindowCycler {
 
     // MARK: - Window enumeration
 
-    private func cyclableWindows(of appElement: AXUIElement) -> [Window] {
-        appElement.elements(kAXWindowsAttribute).compactMap { element -> Window? in
+    private func cyclableWindows(from allWindows: [AXUIElement]) -> [Window] {
+        allWindows.compactMap { element -> Window? in
             let subrole = element.subrole
             // Sheets, popovers and palettes are not things you cycle between.
             guard subrole == nil || subrole == kAXStandardWindowSubrole else { return nil }
@@ -95,6 +107,20 @@ final class WindowCycler {
             guard !minimized || Preferences.shared.includeMinimized else { return nil }
             return Window(id: id, element: element, isMinimized: minimized)
         }
+    }
+
+    /// A running app with no windows should behave like any other Dock click and put one back.
+    /// Opening an app that is already running is what delivers the reopen event apps answer by
+    /// restoring or creating a window; `activate` on its own would just bring up an empty app.
+    private func reopen(pid: pid_t) {
+        let app = NSRunningApplication(processIdentifier: pid)
+        guard let bundleURL = app?.bundleURL else {
+            app?.activateApp()
+            return
+        }
+        let configuration = NSWorkspace.OpenConfiguration()
+        configuration.activates = true
+        NSWorkspace.shared.openApplication(at: bundleURL, configuration: configuration)
     }
 
     // MARK: - Raising

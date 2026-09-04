@@ -5,7 +5,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 APP_NAME="ClickSwitch"
-BUNDLE_ID="com.clickswitch.ClickSwitch"
+BUNDLE_ID="com.tomwildenhain.clickswitch"
 OUT_DIR="build"
 APP="$OUT_DIR/$APP_NAME.app"
 

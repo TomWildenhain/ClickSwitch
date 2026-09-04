@@ -1,6 +1,6 @@
 # ClickSwitch
 
-Tied of MacOS bringing every window to the foreground when you switch applications? As a Windows user, I miss the ctrl+click taskbar combination which cycles through application windows in the order they were most recently used.
+Tired of MacOS bringing every window to the foreground when you switch applications? As a Windows user, I miss the ctrl+click taskbar combination which cycles through application windows in the order they were most recently used.
 
 ClickSwitch uses the accessibility API to bring this functionality to MacOS. Hold down the command key while clicking a dock icon to enjoy single-window-activation bliss. The tool can be configured to use alternative modifier keys (or none at all) and launch at startup.
 
